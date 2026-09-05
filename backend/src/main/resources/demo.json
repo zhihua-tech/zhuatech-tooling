@@ -1,0 +1,136 @@
+[
+  {
+    "op": "create",
+    "as": "tool",
+    "module": "tools",
+    "data": {
+      "name": "注塑成型模具 A01",
+      "serial": "MOLD-SN001",
+      "lifeLimit": 1000,
+      "serviceEvery": 100
+    }
+  },
+  {
+    "op": "create",
+    "as": "assignment",
+    "module": "assignments",
+    "data": {
+      "tool": "$tool.id",
+      "line": "注塑一线",
+      "operator": "设备专员（演示）",
+      "issuedAt": "$today"
+    }
+  },
+  {
+    "op": "action",
+    "target": "assignment",
+    "action": "issue",
+    "data": {}
+  },
+  {
+    "op": "create",
+    "as": "other",
+    "module": "assignments",
+    "data": {
+      "tool": "$tool.id",
+      "line": "注塑二线",
+      "operator": "设备专员（演示）",
+      "issuedAt": "$today"
+    }
+  },
+  {
+    "op": "create",
+    "as": "overrun",
+    "module": "runs",
+    "data": {
+      "assignment": "$assignment.id",
+      "shots": 101,
+      "defects": 0,
+      "batch": "BATCH-OVER"
+    }
+  },
+  {
+    "op": "create",
+    "as": "run",
+    "module": "runs",
+    "data": {
+      "assignment": "$assignment.id",
+      "shots": 100,
+      "defects": 2,
+      "batch": "BATCH-001"
+    }
+  },
+  {
+    "op": "action",
+    "target": "run",
+    "action": "post",
+    "data": {}
+  },
+  {
+    "op": "action",
+    "target": "assignment",
+    "action": "return",
+    "data": {}
+  },
+  {
+    "op": "create",
+    "as": "service",
+    "module": "maintenance",
+    "data": {
+      "tool": "$tool.id",
+      "finding": "到达预防保养计次",
+      "technician": "模具工程师"
+    }
+  },
+  {
+    "op": "action",
+    "target": "service",
+    "action": "start",
+    "data": {}
+  },
+  {
+    "op": "action",
+    "target": "service",
+    "action": "complete",
+    "data": {
+      "work": "清洁模腔、润滑导柱并检查紧固件",
+      "cost": 120
+    }
+  },
+  {
+    "op": "action",
+    "target": "service",
+    "action": "approve",
+    "data": {},
+    "role": "reviewer"
+  },
+  {
+    "op": "action",
+    "target": "other",
+    "action": "issue",
+    "data": {}
+  },
+  {
+    "op": "create",
+    "as": "run2",
+    "module": "runs",
+    "data": {
+      "assignment": "$other.id",
+      "shots": 20,
+      "defects": 0,
+      "batch": "BATCH-002"
+    }
+  },
+  {
+    "op": "action",
+    "target": "run2",
+    "action": "post",
+    "data": {}
+  },
+  {
+    "op": "action",
+    "target": "other",
+    "action": "return",
+    "data": {}
+  }
+]

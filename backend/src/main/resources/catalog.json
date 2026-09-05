@@ -1,0 +1,358 @@
+{
+  "slug": "tooling",
+  "pkg": "tooling",
+  "name": "知华模具工装管理",
+  "subtitle": "工装领还、生产计次、预防保养与维修",
+  "accent": "#6f6438",
+  "modules": [
+    {
+      "key": "tools",
+      "label": "模具工装",
+      "description": "寿命与保养计数，超限禁止继续生产",
+      "initial": "READY",
+      "editable": true,
+      "creatable": true,
+      "fields": [
+        {
+          "key": "name",
+          "label": "工装名称",
+          "type": "text",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": null,
+          "max": null
+        },
+        {
+          "key": "serial",
+          "label": "唯一序列号",
+          "type": "text",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": null,
+          "max": null
+        },
+        {
+          "key": "lifeLimit",
+          "label": "累计寿命上限",
+          "type": "integer",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": "1",
+          "max": "1000000"
+        },
+        {
+          "key": "serviceEvery",
+          "label": "保养间隔次数",
+          "type": "integer",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": "1",
+          "max": "1000000"
+        }
+      ],
+      "actions": [
+        {
+          "key": "retire",
+          "label": "停用报废",
+          "from": [
+            "READY",
+            "MAINTENANCE"
+          ],
+          "to": "RETIRED",
+          "role": "REVIEWER",
+          "separate": true,
+          "fields": []
+        }
+      ]
+    },
+    {
+      "key": "assignments",
+      "label": "工装领用",
+      "description": "工装唯一占用与归还",
+      "initial": "DRAFT",
+      "editable": true,
+      "creatable": true,
+      "fields": [
+        {
+          "key": "tool",
+          "label": "工装",
+          "type": "ref",
+          "required": true,
+          "ref": "tools",
+          "options": [],
+          "min": null,
+          "max": null
+        },
+        {
+          "key": "line",
+          "label": "生产线",
+          "type": "text",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": null,
+          "max": null
+        },
+        {
+          "key": "operator",
+          "label": "领用人",
+          "type": "text",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": null,
+          "max": null
+        },
+        {
+          "key": "issuedAt",
+          "label": "领用日期",
+          "type": "date",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": null,
+          "max": null
+        }
+      ],
+      "actions": [
+        {
+          "key": "issue",
+          "label": "领用出库",
+          "from": [
+            "DRAFT"
+          ],
+          "to": "IN_USE",
+          "role": "OPERATOR",
+          "separate": false,
+          "fields": []
+        },
+        {
+          "key": "return",
+          "label": "归还入库",
+          "from": [
+            "IN_USE"
+          ],
+          "to": "RETURNED",
+          "role": "OPERATOR",
+          "separate": false,
+          "fields": []
+        },
+        {
+          "key": "cancel",
+          "label": "撤销",
+          "from": [
+            "DRAFT"
+          ],
+          "to": "CANCELLED",
+          "role": "OPERATOR",
+          "separate": false,
+          "fields": []
+        }
+      ]
+    },
+    {
+      "key": "runs",
+      "label": "生产计次",
+      "description": "关联领用单记录加工次数与不良数",
+      "initial": "DRAFT",
+      "editable": true,
+      "creatable": true,
+      "fields": [
+        {
+          "key": "assignment",
+          "label": "领用单",
+          "type": "ref",
+          "required": true,
+          "ref": "assignments",
+          "options": [],
+          "min": null,
+          "max": null
+        },
+        {
+          "key": "shots",
+          "label": "生产次数",
+          "type": "integer",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": "1",
+          "max": "1000000"
+        },
+        {
+          "key": "defects",
+          "label": "不良次数",
+          "type": "integer",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": "0",
+          "max": "1000000"
+        },
+        {
+          "key": "batch",
+          "label": "生产批号",
+          "type": "text",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": null,
+          "max": null
+        }
+      ],
+      "actions": [
+        {
+          "key": "post",
+          "label": "确认计次",
+          "from": [
+            "DRAFT"
+          ],
+          "to": "POSTED",
+          "role": "OPERATOR",
+          "separate": false,
+          "fields": []
+        }
+      ]
+    },
+    {
+      "key": "maintenance",
+      "label": "保养维修",
+      "description": "检查记录、停机修复、验收解锁",
+      "initial": "DRAFT",
+      "editable": true,
+      "creatable": true,
+      "fields": [
+        {
+          "key": "tool",
+          "label": "工装",
+          "type": "ref",
+          "required": true,
+          "ref": "tools",
+          "options": [],
+          "min": null,
+          "max": null
+        },
+        {
+          "key": "finding",
+          "label": "故障或保养原因",
+          "type": "text",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": null,
+          "max": null
+        },
+        {
+          "key": "technician",
+          "label": "维修责任人",
+          "type": "text",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": null,
+          "max": null
+        }
+      ],
+      "actions": [
+        {
+          "key": "start",
+          "label": "开始保养",
+          "from": [
+            "DRAFT"
+          ],
+          "to": "IN_PROGRESS",
+          "role": "OPERATOR",
+          "separate": false,
+          "fields": []
+        },
+        {
+          "key": "complete",
+          "label": "提交完工",
+          "from": [
+            "IN_PROGRESS"
+          ],
+          "to": "REVIEW",
+          "role": "OPERATOR",
+          "separate": false,
+          "fields": [
+            {
+              "key": "work",
+              "label": "完成工作",
+              "type": "text",
+              "required": true,
+              "ref": null,
+              "options": [],
+              "min": null,
+              "max": null
+            },
+            {
+              "key": "cost",
+              "label": "维修成本",
+              "type": "money",
+              "required": true,
+              "ref": null,
+              "options": [],
+              "min": "0",
+              "max": "999999999"
+            }
+          ]
+        },
+        {
+          "key": "approve",
+          "label": "验收解锁",
+          "from": [
+            "REVIEW"
+          ],
+          "to": "CLOSED",
+          "role": "REVIEWER",
+          "separate": true,
+          "fields": []
+        }
+      ]
+    },
+    {
+      "key": "movements",
+      "label": "寿命流水",
+      "description": "计次与保养重置的完整流水",
+      "initial": "POSTED",
+      "editable": false,
+      "creatable": false,
+      "fields": [
+        {
+          "key": "tool",
+          "label": "工装",
+          "type": "ref",
+          "required": true,
+          "ref": "tools",
+          "options": [],
+          "min": null,
+          "max": null
+        },
+        {
+          "key": "kind",
+          "label": "类型",
+          "type": "text",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": null,
+          "max": null
+        },
+        {
+          "key": "shots",
+          "label": "次数",
+          "type": "integer",
+          "required": true,
+          "ref": null,
+          "options": [],
+          "min": "0",
+          "max": "1000000"
+        }
+      ],
+      "actions": []
+    }
+  ]
+}
