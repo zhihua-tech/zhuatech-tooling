@@ -1,0 +1,46 @@
+[
+  {
+    "patch": {},
+    "expected": {
+      "decision": "PASS",
+      "lifeRemaining": "#9000",
+      "serviceRemaining": "#900",
+      "acceptableShots": "#900"
+    },
+    "error": false
+  },
+  {
+    "patch": {
+      "plannedShots": "1000"
+    },
+    "expected": {
+      "decision": "HOLD"
+    },
+    "error": false
+  },
+  {
+    "patch": {
+      "plannedShots": "900"
+    },
+    "expected": {
+      "decision": "REVIEW"
+    },
+    "error": false
+  },
+  {
+    "patch": {
+      "totalShots": "10000"
+    },
+    "expected": {
+      "decision": "HOLD"
+    },
+    "error": false
+  },
+  {
+    "patch": {
+      "serviceInterval": "0"
+    },
+    "expected": {},
+    "error": true
+  }
+]

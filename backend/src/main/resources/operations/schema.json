@@ -1,0 +1,84 @@
+{
+  "slug": "tooling",
+  "title": "工装计次剩余寿命承接测算",
+  "fields": [
+    {
+      "key": "id",
+      "label": "记录编号",
+      "type": "ID"
+    },
+    {
+      "key": "totalShots",
+      "label": "累计计次",
+      "type": "NUMBER",
+      "scale": 0,
+      "min": "0",
+      "max": "1000000"
+    },
+    {
+      "key": "lifeLimit",
+      "label": "总寿命次数",
+      "type": "NUMBER",
+      "scale": 0,
+      "min": "1",
+      "max": "1000000"
+    },
+    {
+      "key": "serviceShots",
+      "label": "保养后计次",
+      "type": "NUMBER",
+      "scale": 0,
+      "min": "0",
+      "max": "1000000"
+    },
+    {
+      "key": "serviceInterval",
+      "label": "保养间隔",
+      "type": "NUMBER",
+      "scale": 0,
+      "min": "1",
+      "max": "1000000"
+    },
+    {
+      "key": "plannedShots",
+      "label": "计划加工次数",
+      "type": "NUMBER",
+      "scale": 0,
+      "min": "0",
+      "max": "1000000"
+    }
+  ],
+  "columns": [
+    {
+      "key": "lifeRemaining",
+      "label": "寿命剩余计次"
+    },
+    {
+      "key": "serviceRemaining",
+      "label": "保养剩余计次"
+    },
+    {
+      "key": "acceptableShots",
+      "label": "本次最大承接计次"
+    }
+  ],
+  "description": "同时检查总寿命和当前保养间隔，计算本次加工可承接次数；不更新工装台账。",
+  "owner": "上海如静知华信息科技有限公司",
+  "website": "https://www.zhuatech.cn/",
+  "authorization": "商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。",
+  "version": 1,
+  "notes": "输入均须为已获授权的同口径数据。金额固定人民币元；比例为百分数。核算结果只用于复核，未审批、未写库、未发起外部调用，也未触发付款、签名、资料销毁或设备控制。建议不构成法律、安全、会计或碳核证结论。",
+  "sample": {
+    "asOf": "2026-10-23",
+    "records": [
+      {
+        "id": "ITEM-001",
+        "totalShots": "1000",
+        "lifeLimit": "10000",
+        "serviceShots": "100",
+        "serviceInterval": "1000",
+        "plannedShots": "500"
+      }
+    ]
+  }
+}
